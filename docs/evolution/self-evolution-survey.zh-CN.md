@@ -4,7 +4,7 @@
 >
 > 审计范围：`pico-harness`（现已独立上传至 `BackOutSide/picov2`）
 >
-> 目的：回答“成熟系统实际怎样持续改进”“Pico 现在真正做到哪一步”，并为 [Evolution v2 迭代方法](self-evolution-v2.zh-CN.md) 提供依据。
+> 目的：回答“成熟系统实际怎样持续改进”“Pico 现在真正做到哪一步”，并为 [Local-First 改造计划](self-evolution-local-first-plan.zh-CN.md) 提供依据。原 [Evolution v2 迭代方法](self-evolution-v2.zh-CN.md) 保留为生产化历史参考。
 
 ## 1. 结论先行
 
@@ -202,18 +202,18 @@ Workspace/Builtin/Configured SKILL.md
 | Candidate generator 与 evaluator 分离 | Judge/候选/评测边界仍有泄漏 | Candidate、trusted evaluator、controller 三身份 |
 | 独立 validation 防过拟合 | sealed 单次有设计，但同 run/跨 run 暴露治理不足 | fresh grouped shard + exposure ledger + retire |
 | 安全规则不能由学习器修改 | path guard 有效但不是 OS 隔离 | R4 trust root + existing BoxLite strict profile |
-| 发布必须版本化、可观测、可恢复 | activation 只有 metadata | `ReleaseSpec` + `DeploymentRecord` + CAS reconciler |
-| Context 版本必须固定 | shared registry/cache 可能混版本 | `SessionCapabilitySnapshot` 与 digest-keyed catalog |
+| 采用必须版本化、可观测、可恢复 | activation 只有 metadata | 当前先做 `LocalAdoptionDecision` + Git/资产 digest + previous baseline；生产发布后置 |
+| Context 版本必须固定 | shared registry/cache 可能混版本 | 当前先让本地实验 profile 绑定 Skill/Prompt digest；生产 Session 快照后置 |
 | 先做小范围可验证对象 | 当前想扩到多类 candidate | Skill 纵向切片；Prompt 后接；Runtime 部署后移 |
 
 ## 6. 决策
 
-1. Pico Evolution v2 的首个产品闭环定为 `Experience → Skill → fresh promotion → Release → rollback`。
+1. Pico Evolution 的首个 local-first 闭环定为 `Experience → Skill → fresh promotion → local adoption → rollback-local`。
 2. LLM 负责对比轨迹、生成 hypothesis 和最小 Skill delta；不负责签发 success、risk、promotion 或 activation。
 3. 所有候选执行路径接入现有 BoxLite executor；没有合格 backend 就拒绝运行。
 4. Promotion 只使用从未参与生成或先前决策的 grouped fresh data；sealed 数据一经暴露永久退休。
 5. 首版只支持 instruction-only Skill；Prompt 作为第二 adapter；Runtime 候选先完成隔离，生产部署后置。
-6. Memory、workspace Skill 和 operator Skill 的变化纳入 session snapshot；普通 rollback 与强制 revoke 分开。
+6. Memory、workspace Skill 和 operator Skill 暂不进入自动采用；实验基线以 Git commit 和资产 digest 固定，并保留 previous baseline。
 7. 在线权重更新、自由 workflow/code 自修改和自动权限扩张继续保持 out of scope。
 
-详细 schema、统计 gate、发布事务、验收实验和 9–11 周里程碑见 [Evolution v2 迭代方法](self-evolution-v2.zh-CN.md)。
+近期实施顺序、类型化审批、统计 gate、代码清单和验收实验见 [Local-First 改造计划](self-evolution-local-first-plan.zh-CN.md)。生产发布事务与灰度设计仅在 [Evolution v2 历史方案](self-evolution-v2.zh-CN.md) 中保留为远期参考。

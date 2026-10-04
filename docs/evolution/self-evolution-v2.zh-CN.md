@@ -1,6 +1,8 @@
 # Pico Evolution v2：以 Skill 为首个纵向切片的证据门控能力演进
 
-> 配套材料：[业界调研与 Pico 当前实现审计](self-evolution-survey.zh-CN.md)。本文件是可直接进入 M0 与详细实现规划的 canonical 方法规范。
+> 历史方案说明：本文件包含生产发布、灰度和回滚设计。由于 Pico 当前定位为 local-first 且尚无生产环境，当前实施计划已经收敛为 [Local-First 改造计划](self-evolution-local-first-plan.zh-CN.md)；本文件保留为未来生产化参考，不再是近期 canonical 计划。
+
+> 配套材料：[业界调研与当前实现审计](self-evolution-survey.zh-CN.md)。本文件记录上一版完整方法，供理解统计与生产化取舍时参考。
 
 ## Problem Anchor
 
